@@ -1,8 +1,6 @@
 package org.example.empresafct;
 
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -21,23 +19,13 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class HelloController {
+public class AlunmosController {
     public Tab tap_alumnos;
     public Button bt_crearDATalumnos;
     public Label lab_infoAlumnos;
     public Tab tab_tutores;
     public Button bt_crearXMLtutores;
     public Label lab_infoTutores;
-    @FXML
-    private Label welcomeText;
-
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
-
-    public void click_bt_crearDATalumnos(Event event) {
-    }
 
     public void click_bt_crearXMLtutores(ActionEvent actionEvent) {
         try {
@@ -81,5 +69,8 @@ public class HelloController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void click_bt_crearDATalumnos(ActionEvent actionEvent) {
     }
 }

@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.text.Font?>
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="org.example.empresafct.HelloController">
   <tabs>
     <Tab text="Empresas">
@@ -86,15 +87,34 @@
                </children></AnchorPane>
       </content>
     </Tab>
-    <Tab text="Alumnos">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-      </content>
-    </Tab>
-      <Tab text="Tutores">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-        </content>
+      <Tab fx:id="tap_alumnos" onSelectionChanged="#click_bt_crearDATalumnos" text="Alumnos">
+          <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                      <Button fx:id="bt_crearDATalumnos" layoutX="195.0" layoutY="97.0" mnemonicParsing="false" onAction="#click_bt_crearDATalumnos" prefHeight="156.0" prefWidth="211.0" text="Crear DAT con tutores" />
+                      <Label fx:id="lab_infoAlumnos" alignment="CENTER" layoutX="122.0" layoutY="299.0" prefHeight="27.0" prefWidth="357.0" style="-fx-background-color: rgb(153,204,102);" text="Información del fichero ahora registrada en la tabla alumnos" textAlignment="CENTER" />
+                      <Label alignment="CENTER" layoutX="100.0" layoutY="20.0" prefHeight="60.0" prefWidth="374.0" text="Gestión de datos alumnos" textAlignment="CENTER">
+                          <font>
+                              <Font name="System Bold" size="20.0" />
+                          </font>
+                      </Label>
+                  </children></AnchorPane>
+          </content>
+      </Tab>
+      <Tab fx:id="tab_tutores" text="Tutores">
+          <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                      <Button fx:id="bt_crearXMLtutores" layoutX="195.0" layoutY="97.0" mnemonicParsing="false" onAction="#click_bt_crearXMLtutores" prefHeight="156.0" prefWidth="211.0" text="CrearXML tutores" />
+                      <Label fx:id="lab_infoTutores" alignment="CENTER" layoutX="122.0" layoutY="299.0" prefHeight="27.0" prefWidth="357.0" style="-fx-background-color: rgb(102,153,204);" text="Información del fichero ahora registrada en la tabla tutores" textAlignment="CENTER" />
+                      <Label alignment="CENTER" layoutX="100.0" layoutY="20.0" prefHeight="60.0" prefWidth="374.0" text="Gestión de datos alumnos" textAlignment="CENTER">
+                          <font>
+                              <Font name="System Bold" size="20.0" />
+                          </font>
+                      </Label>
+                  </children>
+              </AnchorPane>
+          </content>
       </Tab>
       <Tab text="Asignación">
         <content>
