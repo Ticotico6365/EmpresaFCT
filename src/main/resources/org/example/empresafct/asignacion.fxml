@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.empresafct.HelloController">
+  <tabs>
+    <Tab text="Asignación">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="bt_confirmarAsignacion" layoutX="266.0" layoutY="250.0" mnemonicParsing="false" onAction="#click_bt_confirmarAsignacion" text="Confirmar" />
+                  <Label layoutX="182.0" layoutY="37.0" prefHeight="50.0" prefWidth="237.0" text="GESTIÓN DE LA ASIGNACIÓN DE PLAZAS">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="99.0" layoutY="111.0" text="Elección de Alumno:" />
+                  <Label layoutX="98.0" layoutY="153.0" text="Elección de Empresa:" />
+                  <Label layoutX="113.0" layoutY="198.0" text="Elección de Tutor:" />
+
+                  <Label fx:id="label_informacionCompleta" layoutX="213.0" layoutY="307.0" onDragDetected="#muestra_informacionCompleta" prefHeight="17.0" prefWidth="174.0" style="-fx-background-color: grey" />
+                  <SplitMenuButton fx:id="smb_eleccionAlumno" layoutX="225.0" layoutY="107.0" mnemonicParsing="false" onAction="#click_smb_eleccionAlumno" prefHeight="25.0" prefWidth="214.0">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Action 1" />
+                      <MenuItem mnemonicParsing="false" text="Action 2" />
+                    </items>
+                  </SplitMenuButton>
+                  <SplitMenuButton fx:id="smb_eleccionEmpresa" layoutX="225.0" layoutY="149.0" mnemonicParsing="false" onAction="#click_smb_eleccionEmpresa" prefHeight="25.0" prefWidth="215.0">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Action 1" />
+                        <MenuItem mnemonicParsing="false" text="Action 2" />
+                     </items>
+                  </SplitMenuButton>
+                  <SplitMenuButton fx:id="smb_eleccionTutor" layoutX="225.0" layoutY="194.0" mnemonicParsing="false" onAction="#click_smb_eleccionTutor" prefHeight="25.0" prefWidth="214.0">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Action 1" />
+                        <MenuItem mnemonicParsing="false" text="Action 2" />
+                     </items>
+                  </SplitMenuButton>
+               </children></AnchorPane>
+      </content>
+    </Tab>
+  </tabs>
+</TabPane>
