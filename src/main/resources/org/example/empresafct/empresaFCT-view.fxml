@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.empresafct.HelloController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.empresafct.HelloController">
   <tabs>
     <Tab text="Empresas">
       <content>
@@ -71,7 +72,7 @@
                      </children>
                   </AnchorPane>
                   <Label layoutX="22.0" layoutY="305.0" text="Reflejo de la tabla de datos" />
-                  <TableView fx:id="tab_reflejo_Tabla_De_Datos" layoutX="21.0" layoutY="322.0" prefHeight="200.0" prefWidth="432.0">
+                  <TableView fx:id="empresaTableView" layoutX="21.0" layoutY="322.0" prefHeight="200.0" prefWidth="432.0">
                     <columns>
                       <TableColumn prefWidth="25.0" text="CIF" />
                       <TableColumn prefWidth="56.0" text="Nombre" />

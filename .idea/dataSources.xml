@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="EmpresaFCT@localhost" uuid="693f12f8-d914-4100-a4cf-2c46da5b05a9">
-    <data-source source="LOCAL" name="EmpresaFCT@localhost" uuid="ea9f8b29-e0e0-43d3-901e-b0f89d1170d9">
+    <data-source source="LOCAL" name="EmpresaFCT@localhost" uuid="822e3e70-1594-4c1a-abce-12ff4a17ce13">
       <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
@@ -10,7 +9,6 @@
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
-        <property name="com.intellij.clouds.kubernetes.db.resource.type" value="Deployment" />
         <property name="com.intellij.clouds.kubernetes.db.container.port" />
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
