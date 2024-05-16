@@ -18,8 +18,4 @@ public class DatabaseConnection {
         }
         return connection;
     }
-
-    public static void main(String[] args) {
-        getConnection();
-    }
 }

@@ -33,46 +33,14 @@ public class HelloController {
 
     public void click_bt_crearDATalumnos(ActionEvent actionEvent) {
         try {
-            Connection connection = DatabaseConnection.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM alumnos");
-
-            DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
-            Document document = documentBuilder.newDocument();
-
-            // root element
-            Element root = document.createElement("Alumnos");
-            document.appendChild(root);
-
-            while (resultSet.next()) {
-                Element alumno = document.createElement("Alumno");
-
-                Element id = document.createElement("ID");
-                id.appendChild(document.createTextNode(resultSet.getString("id")));
-                alumno.appendChild(id);
-
-                Element name = document.createElement("Name");
-                name.appendChild(document.createTextNode(resultSet.getString("name")));
-                alumno.appendChild(name);
-
-                // add more elements for each column in the alumnos table
-
-                root.appendChild(alumno);
+            File file = new File("C:/Users/damda/OneDrive/Documentos/EmpresaFCT/alumnos.dat");
+            if (file.createNewFile()) {
+                lab_infoAlumnos.setText("File created: " + file.getName());
+            } else {
+                lab_infoAlumnos.setText("File already exists.");
             }
-
-            // create the xml file
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            DOMSource domSource = new DOMSource(document);
-            StreamResult streamResult = new StreamResult(new File("alumnos.xml"));
-
-            transformer.transform(domSource, streamResult);
-
         } catch (Exception e) {
             e.printStackTrace();
-
         }
     }
     public static void readXMLFileAndSaveToDatabase() {
@@ -113,7 +81,7 @@ public class HelloController {
                     String correo_electronico = eElement.getElementsByTagName("correo").item(0).getTextContent();
                     String telefono = eElement.getElementsByTagName("telefono").item(0).getTextContent();
 
-                    String insertQuery = "INSERT INTO tutor (nombre, apellidos, correo_electronico, telefono) VALUES ('" + nombre + "', '" + codtut + "', '" + correo_electronico + "', '" + telefono + "')";
+                    String insertQuery = "INSERT INTO tutor (nombre, aoellidos, correo_electronico, telefono) VALUES ('" + nombre + "', '" + codtut + "', '" + correo_electronico + "', '" + telefono + "')";
                     statement.executeUpdate(insertQuery);
                 }
             }
