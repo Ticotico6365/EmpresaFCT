@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.empresafct.HelloController">
+  <tabs>
+    <Tab text="Empresas">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="476.0" prefWidth="600.0">
+               <children>
+                  <Label layoutX="129.0" layoutY="14.0" prefHeight="17.0" prefWidth="200.0" text="GESTION DE DATOS DE EMPRESAS" />
+                  <Label layoutX="22.0" layoutY="37.0" prefHeight="17.0" prefWidth="56.0" text="Empresa" />
+                  <Label layoutX="22.0" layoutY="64.0" text="Código Empresa:" />
+                  <AnchorPane layoutX="22.0" layoutY="54.0" prefHeight="96.0" prefWidth="438.0" style="-fx-border-color: blue;">
+                     <children>
+                        <TextField fx:id="txt_codigo_Empresa" layoutX="93.0" layoutY="2.0" prefHeight="27.0" prefWidth="24.0" style="-fx-border-color: blue;" text="5" />
+                        <TextField fx:id="txt_CIF" layoutX="152.0" layoutY="2.0" prefHeight="25.0" prefWidth="80.0" />
+                        <TextField fx:id="txt_nombre" layoutX="282.0" layoutY="3.0" prefHeight="25.0" prefWidth="142.0" />
+                        <TextField fx:id="txt_direccion" layoutX="53.0" layoutY="33.0" prefHeight="25.0" prefWidth="116.0" />
+                        <TextField fx:id="txt_CP" layoutX="199.0" layoutY="33.0" prefHeight="25.0" prefWidth="41.0" />
+                        <TextField fx:id="txt_localidad" layoutX="305.0" layoutY="33.0" prefHeight="25.0" prefWidth="119.0" />
+                        <Label layoutY="37.0" text="Dirección:" />
+                        <Label layoutX="125.0" layoutY="7.0" text="CIF:" />
+                        <Label layoutX="232.0" layoutY="7.0" text="Nombre:" />
+                        <Label layoutX="172.0" layoutY="37.0" text="C.P:" />
+                        <Label layoutX="246.0" layoutY="37.0" text="Localidad:" />
+                        <Label layoutY="65.0" text="Jornada:" />
+                        <Label layoutX="139.0" layoutY="65.0" text="Modalidad::" />
+                        <Label layoutX="299.0" layoutY="65.0" text="Mail:" />
+                        <SplitMenuButton fx:id="smb_jornada" layoutX="53.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="Partida">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Partida" />
+                            <MenuItem mnemonicParsing="false" text="Completa" />
+                          </items>
+                        </SplitMenuButton>
+                        <SplitMenuButton fx:id="smb_modalidad" layoutX="199.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Presencial">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Action 1" />
+                            <MenuItem mnemonicParsing="false" text="Action 2" />
+                          </items>
+                        </SplitMenuButton>
+                        <TextField fx:id="txt_mail" layoutX="329.0" layoutY="61.0" prefHeight="25.0" prefWidth="96.0" />
+                     </children>
+                  </AnchorPane>
+                  <Label layoutX="22.0" layoutY="150.0" text="Personas" />
+                  <AnchorPane layoutX="22.0" layoutY="167.0" prefHeight="59.0" prefWidth="464.0" style="-fx-border-color: BLUE;">
+                     <children>
+                        <Label text="DNI.Rep.Legal:" />
+                        <Label layoutY="29.0" text="DNI.Tut.Laboral:" />
+                        <Label layoutX="137.0" text="Nombre RL:" />
+                        <Label layoutX="121.0" layoutY="29.0" text="Nombre TL:" />
+                        <Label layoutX="254.0" layoutY="-5.0" prefHeight="22.0" prefWidth="68.0" text="Apellidos RL:" />
+                        <Label layoutX="221.0" layoutY="29.0" text="Apellidos TL:" />
+                        <Label layoutX="332.0" layoutY="29.0" text="tlf.TL:" />
+                        <TextField fx:id="txt_dni_Rep_Legal" layoutX="78.0" layoutY="-4.0" prefHeight="25.0" prefWidth="59.0" />
+                        <TextField fx:id="txt_dni_Tut_Laboral" layoutX="85.0" layoutY="25.0" prefHeight="25.0" prefWidth="36.0" />
+                        <TextField fx:id="txt_nombre_Rl" layoutX="200.0" layoutY="-4.0" prefHeight="25.0" prefWidth="50.0" />
+                        <TextField fx:id="txt_nombre_Tl" layoutX="182.0" layoutY="25.0" prefHeight="25.0" prefWidth="37.0" />
+                        <TextField fx:id="txt_apellidos_Tl" layoutX="288.0" layoutY="25.0" prefHeight="25.0" prefWidth="45.0" />
+                        <TextField fx:id="txt_tlfTL" layoutX="360.0" layoutY="25.0" prefHeight="25.0" prefWidth="105.0" />
+                        <TextField fx:id="txt_apellidos_Rl" layoutX="322.0" layoutY="-4.0" prefHeight="25.0" prefWidth="142.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="92.0" layoutY="231.0" prefHeight="61.0" prefWidth="264.0" style="-fx-border-color: GRAY;">
+                     <children>
+                        <Button fx:id="bt_insertar" layoutX="14.0" layoutY="18.0" mnemonicParsing="false" text="Insertar" />
+                        <Button fx:id="bt_modificar" layoutX="99.0" layoutY="18.0" mnemonicParsing="false" text="Modificar" />
+                        <Button fx:id="bt_eliminar" layoutX="192.0" layoutY="18.0" mnemonicParsing="false" text="Eliminar" />
+                     </children>
+                  </AnchorPane>
+                  <Label layoutX="22.0" layoutY="305.0" text="Reflejo de la tabla de datos" />
+                  <TableView fx:id="tab_reflejo_Tabla_De_Datos" layoutX="21.0" layoutY="322.0" prefHeight="200.0" prefWidth="432.0">
+                    <columns>
+                      <TableColumn prefWidth="25.0" text="CIF" />
+                      <TableColumn prefWidth="56.0" text="Nombre" />
+                        <TableColumn prefWidth="61.0" text="Dirección" />
+                        <TableColumn prefWidth="28.0" text="C.P." />
+                        <TableColumn prefWidth="65.0" text="Localidad" />
+                        <TableColumn prefWidth="59.0" text="Jornada" />
+                        <TableColumn prefWidth="65.0" text="Modalidad" />
+                        <TableColumn prefWidth="65.0" text="Correo" />
+                    </columns>
+                  </TableView>
+               </children></AnchorPane>
+      </content>
+    </Tab>
+      <Tab fx:id="tap_alumnos" text="Alumnos">
+          <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                      <Button fx:id="bt_crearDATalumnos" layoutX="195.0" layoutY="97.0" mnemonicParsing="false" onAction="#click_bt_crearDATalumnos" prefHeight="156.0" prefWidth="211.0" text="Crear DAT con tutores" />
+                      <Label fx:id="lab_infoAlumnos" alignment="CENTER" layoutX="147.0" layoutY="291.0" prefHeight="74.0" prefWidth="327.0" style="-fx-background-color: rgb(153,204,102);" textAlignment="CENTER" />
+                      <Label alignment="CENTER" layoutX="100.0" layoutY="20.0" prefHeight="60.0" prefWidth="374.0" text="Gestión de datos alumnos" textAlignment="CENTER">
+                          <font>
+                              <Font name="System Bold" size="20.0" />
+                          </font>
+                      </Label>
+                  </children></AnchorPane>
+          </content>
+      </Tab>
+      <Tab fx:id="tab_tutores" text="Tutores">
+          <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                      <Button fx:id="bt_crearXMLtutores" layoutX="195.0" layoutY="97.0" mnemonicParsing="false" onAction="#click_bt_crearXMLtutores" prefHeight="156.0" prefWidth="211.0" text="Extraer datos XML tutores" />
+                      <Label fx:id="lab_infoTutores" alignment="CENTER" layoutX="122.0" layoutY="283.0" prefHeight="108.0" prefWidth="357.0" style="-fx-background-color: rgb(102,153,204);" textAlignment="CENTER" />
+                      <Label alignment="CENTER" layoutX="100.0" layoutY="20.0" prefHeight="60.0" prefWidth="374.0" text="Gestión de datos alumnos" textAlignment="CENTER">
+                          <font>
+                              <Font name="System Bold" size="20.0" />
+                          </font>
+                      </Label>
+                  </children>
+              </AnchorPane>
+          </content>
+      </Tab>
+      <Tab text="Asignación">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        </content>
+      </Tab>
+  </tabs>
+</TabPane>
