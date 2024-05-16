@@ -6,6 +6,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -27,34 +29,34 @@ public class AlunmosController {
     public Button bt_crearXMLtutores;
     public Label lab_infoTutores;
 
-    public void click_bt_crearXMLtutores(ActionEvent actionEvent) {
+    public void click_bt_crearDATalumnos(ActionEvent actionEvent) {
         try {
             Connection connection = DatabaseConnection.getConnection();
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM tutor");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM alumnos");
 
             DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
             Document document = documentBuilder.newDocument();
 
             // root element
-            Element root = document.createElement("Tutores");
+            Element root = document.createElement("Alumnos");
             document.appendChild(root);
 
             while (resultSet.next()) {
-                Element tutor = document.createElement("Tutor");
+                Element alumno = document.createElement("Alumno");
 
                 Element id = document.createElement("ID");
                 id.appendChild(document.createTextNode(resultSet.getString("id")));
-                tutor.appendChild(id);
+                alumno.appendChild(id);
 
                 Element name = document.createElement("Name");
                 name.appendChild(document.createTextNode(resultSet.getString("name")));
-                tutor.appendChild(name);
+                alumno.appendChild(name);
 
-                // add more elements for each column in the tutores table
+                // add more elements for each column in the alumnos table
 
-                root.appendChild(tutor);
+                root.appendChild(alumno);
             }
 
             // create the xml file
@@ -62,15 +64,47 @@ public class AlunmosController {
             Transformer transformer = transformerFactory.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             DOMSource domSource = new DOMSource(document);
-            StreamResult streamResult = new StreamResult(new File("tutores.xml"));
+            StreamResult streamResult = new StreamResult(new File("alumnos.xml"));
 
             transformer.transform(domSource, streamResult);
 
         } catch (Exception e) {
             e.printStackTrace();
+
         }
     }
+    public void readXMLFileAndSaveToDatabase() {
+        try {
+            File inputFile = new File("tutoresdoc.xml");
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(inputFile);
+            doc.getDocumentElement().normalize();
 
-    public void click_bt_crearDATalumnos(ActionEvent actionEvent) {
+            NodeList nList = doc.getElementsByTagName("Tutor");
+
+            Connection connection = DatabaseConnection.getConnection();
+            Statement statement = connection.createStatement();
+
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+                Node nNode = nList.item(temp);
+
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+                    String nombre = eElement.getElementsByTagName("nombre").item(0).getTextContent();
+                    String apellidos = eElement.getElementsByTagName("apellidos").item(0).getTextContent();
+                    String correo_electronico = eElement.getElementsByTagName("correo_electronico").item(0).getTextContent();
+                    String telefono = eElement.getElementsByTagName("telefono").item(0).getTextContent();
+
+                    String insertQuery = "INSERT INTO tutor (nombre, apellidos, correo_electronico, telefono) VALUES ('" + nombre + "', '" + apellidos + "', '" + correo_electronico + "', '" + telefono + "')";
+                    statement.executeUpdate(insertQuery);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void click_bt_crearXMLtutores(ActionEvent actionEvent) {
+        readXMLFileAndSaveToDatabase();
     }
 }
