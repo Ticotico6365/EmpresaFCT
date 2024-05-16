@@ -1,8 +1,6 @@
 package org.example.empresafct;
 
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -22,24 +20,8 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import javafx.scene.control.TableView;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-
-public class HelloController {
-    @FXML
-    private TableView<Empresa> empresaTableView;
-
-    private Connection connection;
-    private EmpresaDAO empresaDAO;
-
-    public HelloController() {
-        // Establecer la conexión a la base de datos
-        this.connection = DatabaseConnection.getConnection();
-        this.empresaDAO = new EmpresaDAO(connection);
-    }
+public class AlunmosController {
     public Tab tap_alumnos;
     public Button bt_crearDATalumnos;
     public Label lab_infoAlumnos;
@@ -86,29 +68,20 @@ public class HelloController {
 
             transformer.transform(domSource, streamResult);
 
-    @FXML
-    private void initialize() {
-        try {
-            // Cargar las empresas desde la base de datos y mostrarlas en la tabla
-            loadEmpresas();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Manejar el error de conexión a la base de datos
-        }
         } catch (Exception e) {
             e.printStackTrace();
 
         }
     }
-    public static void readXMLFileAndSaveToDatabase() {
+    public void readXMLFileAndSaveToDatabase() {
         try {
-            File inputFile = new File("C:/Users/damda/OneDrive/Documentos/EmpresaFCT/tutoresdoc.xml");
+            File inputFile = new File("tutoresdoc.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(inputFile);
             doc.getDocumentElement().normalize();
 
-            NodeList nList = doc.getElementsByTagName("tutordoc");
+            NodeList nList = doc.getElementsByTagName("Tutor");
 
             Connection connection = DatabaseConnection.getConnection();
             Statement statement = connection.createStatement();
@@ -117,28 +90,13 @@ public class HelloController {
                 Node nNode = nList.item(temp);
 
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-
-//                    System.out.println("\nCurrent Element: " + nNode.getNodeName());
-//                    System.out.println();
-//
-//                    Element eElement = (Element) nNode;
-//                    String nombre = eElement.getElementsByTagName("nomap").item(0).getTextContent();
-//                    String codtut = eElement.getElementsByTagName("codtut").item(0).getTextContent();
-//                    String correo_electronico = eElement.getElementsByTagName("correo").item(0).getTextContent();
-//                    String telefono = eElement.getElementsByTagName("telefono").item(0).getTextContent();
-//
-//                    System.out.println("nomap: " + nombre);
-//                    System.out.println("codtut: " + codtut);
-//                    System.out.println("Correo Electronico: " + correo_electronico);
-//                    System.out.println("Telefono: " + telefono);
-
                     Element eElement = (Element) nNode;
-                    String nombre = eElement.getElementsByTagName("nomap").item(0).getTextContent();
-                    String codtut = eElement.getElementsByTagName("codtut").item(0).getTextContent();
-                    String correo_electronico = eElement.getElementsByTagName("correo").item(0).getTextContent();
+                    String nombre = eElement.getElementsByTagName("nombre").item(0).getTextContent();
+                    String apellidos = eElement.getElementsByTagName("apellidos").item(0).getTextContent();
+                    String correo_electronico = eElement.getElementsByTagName("correo_electronico").item(0).getTextContent();
                     String telefono = eElement.getElementsByTagName("telefono").item(0).getTextContent();
 
-                    String insertQuery = "INSERT INTO tutor (nombre, apellidos, correo_electronico, telefono) VALUES ('" + nombre + "', '" + codtut + "', '" + correo_electronico + "', '" + telefono + "')";
+                    String insertQuery = "INSERT INTO tutor (nombre, apellidos, correo_electronico, telefono) VALUES ('" + nombre + "', '" + apellidos + "', '" + correo_electronico + "', '" + telefono + "')";
                     statement.executeUpdate(insertQuery);
                 }
             }
@@ -148,10 +106,5 @@ public class HelloController {
     }
     public void click_bt_crearXMLtutores(ActionEvent actionEvent) {
         readXMLFileAndSaveToDatabase();
-    }
-
-    private void loadEmpresas() throws SQLException {
-        List<Empresa> empresas = empresaDAO.getAllEmpresas();
-        empresaTableView.getItems().addAll(empresas);
     }
 }

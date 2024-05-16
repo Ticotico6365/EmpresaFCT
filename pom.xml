@@ -15,7 +15,6 @@
     </properties>
 
     <dependencies>
-        <!-- JavaFX dependencies -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -60,9 +59,8 @@
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
-            <version>2.7.3</version> <!-- Actualiza esta versión -->
+            <version>2.7.3</version>
         </dependency>
-
     </dependencies>
 
     <build>
