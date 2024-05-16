@@ -19,9 +19,13 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HelloController {
     public Tab tap_alumnos;
@@ -33,16 +37,40 @@ public class HelloController {
 
     public void click_bt_crearDATalumnos(ActionEvent actionEvent) {
         try {
-            File file = new File("C:/Users/damda/OneDrive/Documentos/EmpresaFCT/alumnos.dat");
-            if (file.createNewFile()) {
-                lab_infoAlumnos.setText("File created: " + file.getName());
-            } else {
-                lab_infoAlumnos.setText("File already exists.");
-            }
+            List<Alumno> alumnos = getAlumnosFromDatabase();
+            writeAlumnosToFile(alumnos, "C:/Users/damda/OneDrive/Documentos/EmpresaFCT/alumnos.dat");
+            lab_infoAlumnos.setText("File created: alumnos.dat");
         } catch (Exception e) {
             e.printStackTrace();
+            lab_infoAlumnos.setText("Error creating file: " + e.getMessage());
+        }
+        bt_crearDATalumnos.setDisable(true);
+    }
+
+    private List<Alumno> getAlumnosFromDatabase() throws Exception {
+        List<Alumno> alumnos = new ArrayList<>();
+        Connection connection = DatabaseConnection.getConnection();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM alumno");
+        while (resultSet.next()) {
+            Alumno alumno = new Alumno(
+                    resultSet.getString("nombre"),
+                    resultSet.getString("apellidos"),
+                    resultSet.getString("dni"),
+                    resultSet.getDate("fecha_nacimiento").toLocalDate()
+            );
+            alumnos.add(alumno);
+        }
+        return alumnos;
+    }
+
+    private void writeAlumnosToFile(List<Alumno> alumnos, String filePath) throws Exception {
+        try (FileOutputStream fileOut = new FileOutputStream(filePath);
+             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
+            objectOut.writeObject(alumnos);
         }
     }
+
     public static void readXMLFileAndSaveToDatabase() {
         try {
             File inputFile = new File("C:/Users/damda/OneDrive/Documentos/EmpresaFCT/tutoresdoc.xml");
@@ -91,5 +119,9 @@ public class HelloController {
     }
     public void click_bt_crearXMLtutores(ActionEvent actionEvent) {
         readXMLFileAndSaveToDatabase();
+        lab_infoTutores.setText("Información del fichero ahora registrada en la tabla tutores.");
+        bt_crearXMLtutores.setDisable(true);
     }
+
+
 }
