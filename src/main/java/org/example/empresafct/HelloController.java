@@ -1,45 +1,38 @@
 package org.example.empresafct;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TableView;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 public class HelloController {
     @FXML
-    private TextField txt_codigo_Empresa;
-    @FXML
-    private TextField txt_CIF;
-    // Tus otros campos de texto aquí
+    private TableView<Empresa> empresaTableView;
 
+    private Connection connection;
     private EmpresaDAO empresaDAO;
 
     public HelloController() {
-        // Aquí necesitas inicializar empresaDAO.
-        // Necesitarás una conexión a la base de datos para esto.
-        // Por ejemplo:
-        // this.empresaDAO = new EmpresaDAO(myDatabaseConnection);
+        // Establecer la conexión a la base de datos
+        this.connection = DatabaseConnection.getConnection();
+        this.empresaDAO = new EmpresaDAO(connection);
     }
 
     @FXML
-    protected void onInsertarButtonClick() {
-        // Crea una nueva empresa con los datos de los campos de texto
-        // Valida los datos de la empresa
-        // Inserta la empresa en la base de datos
-        // Actualiza la tabla
+    private void initialize() {
+        try {
+            // Cargar las empresas desde la base de datos y mostrarlas en la tabla
+            loadEmpresas();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejar el error de conexión a la base de datos
+        }
     }
 
-    @FXML
-    protected void onModificarButtonClick() {
-        // Obtiene la empresa seleccionada en la tabla
-        // Modifica los datos de la empresa con los datos de los campos de texto
-        // Valida los datos de la empresa
-        // Modifica la empresa en la base de datos
-        // Actualiza la tabla
-    }
-
-    @FXML
-    protected void onEliminarButtonClick() {
-        // Obtiene la empresa seleccionada en la tabla
-        // Elimina la empresa de la base de datos
-        // Actualiza la tabla
+    private void loadEmpresas() throws SQLException {
+        List<Empresa> empresas = empresaDAO.getAllEmpresas();
+        empresaTableView.getItems().addAll(empresas);
     }
 }

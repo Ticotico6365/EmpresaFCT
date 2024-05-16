@@ -4,28 +4,42 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmpresaDAO {
-    private Connection conn;
+    private Connection connection;
 
-    public EmpresaDAO(Connection conn) {
-        this.conn = conn;
+    public EmpresaDAO(Connection connection) {
+        this.connection = connection;
     }
 
-    public void insertarEmpresa(Empresa empresa) throws SQLException {
-        // Implementa la lógica para insertar una empresa en la base de datos
-    }
-
-    public void modificarEmpresa(Empresa empresa) throws SQLException {
-        // Implementa la lógica para modificar una empresa en la base de datos
-    }
-
-    public void eliminarEmpresa(String codigoEmpresa) throws SQLException {
-        // Implementa la lógica para eliminar una empresa de la base de datos
-    }
-
-    public ResultSet obtenerEmpresas() throws SQLException {
-        // Implementa la lógica para obtener todas las empresas de la base de datos
-        return null; // Cambia esto por tu lógica de obtención de datos
+    public List<Empresa> getAllEmpresas() throws SQLException {
+        List<Empresa> empresas = new ArrayList<>();
+        String query = "SELECT * FROM empresas";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Empresa empresa = new Empresa();
+                empresa.setCodigoEmpresa(resultSet.getString("codigoEmpresa"));
+                empresa.setCif(resultSet.getString("cif"));
+                empresa.setNombre(resultSet.getString("nombre"));
+                empresa.setDireccion(resultSet.getString("direccion"));
+                empresa.setCp(resultSet.getString("cp"));
+                empresa.setLocalidad(resultSet.getString("localidad"));
+                empresa.setJornada(resultSet.getString("jornada"));
+                empresa.setModalidad(resultSet.getString("modalidad"));
+                empresa.setMail(resultSet.getString("mail"));
+                empresa.setDniRepLegal(resultSet.getString("dniRepLegal"));
+                empresa.setNombreRepLegal(resultSet.getString("nombreRepLegal"));
+                empresa.setApellidosRepLegal(resultSet.getString("apellidosRepLegal"));
+                empresa.setDniTutLaboral(resultSet.getString("dniTutLaboral"));
+                empresa.setNombreTutLaboral(resultSet.getString("nombreTutLaboral"));
+                empresa.setApellidosTutLaboral(resultSet.getString("apellidosTutLaboral"));
+                empresa.setTelefonoTutLaboral(resultSet.getString("telefonoTutLaboral"));
+                empresas.add(empresa);
+            }
+        }
+        return empresas;
     }
 }
