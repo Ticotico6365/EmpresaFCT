@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.text.Font?>
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="org.example.empresafct.HelloController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.empresafct.HelloController">
   <tabs>
     <Tab text="Empresas">
       <content>
@@ -105,7 +104,7 @@
           <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                      <Button fx:id="bt_crearXMLtutores" layoutX="195.0" layoutY="97.0" mnemonicParsing="false" onAction="#click_bt_crearXMLtutores" prefHeight="156.0" prefWidth="211.0" text="CrearXML tutores" />
+                      <Button fx:id="bt_crearXMLtutores" layoutX="195.0" layoutY="97.0" mnemonicParsing="false" onAction="#click_bt_crearXMLtutores" prefHeight="156.0" prefWidth="211.0" text="Extraer datos XML tutores" />
                       <Label fx:id="lab_infoTutores" alignment="CENTER" layoutX="122.0" layoutY="299.0" prefHeight="27.0" prefWidth="357.0" style="-fx-background-color: rgb(102,153,204);" text="Información del fichero ahora registrada en la tabla tutores" textAlignment="CENTER" />
                       <Label alignment="CENTER" layoutX="100.0" layoutY="20.0" prefHeight="60.0" prefWidth="374.0" text="Gestión de datos alumnos" textAlignment="CENTER">
                           <font>

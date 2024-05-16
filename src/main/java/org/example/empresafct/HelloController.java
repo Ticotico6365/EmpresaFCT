@@ -30,13 +30,6 @@ public class HelloController {
     public Tab tab_tutores;
     public Button bt_crearXMLtutores;
     public Label lab_infoTutores;
-    @FXML
-    private Label welcomeText;
-
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
 
     public void click_bt_crearDATalumnos(ActionEvent actionEvent) {
         try {
@@ -82,15 +75,15 @@ public class HelloController {
 
         }
     }
-    public void readXMLFileAndSaveToDatabase() {
+    public static void readXMLFileAndSaveToDatabase() {
         try {
-            File inputFile = new File("tutoresdoc.xml");
+            File inputFile = new File("C:/Users/damda/OneDrive/Documentos/EmpresaFCT/tutoresdoc.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(inputFile);
             doc.getDocumentElement().normalize();
 
-            NodeList nList = doc.getElementsByTagName("tutoresdoc");
+            NodeList nList = doc.getElementsByTagName("tutordoc");
 
             Connection connection = DatabaseConnection.getConnection();
             Statement statement = connection.createStatement();
@@ -99,13 +92,28 @@ public class HelloController {
                 Node nNode = nList.item(temp);
 
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+
+//                    System.out.println("\nCurrent Element: " + nNode.getNodeName());
+//                    System.out.println();
+//
+//                    Element eElement = (Element) nNode;
+//                    String nombre = eElement.getElementsByTagName("nomap").item(0).getTextContent();
+//                    String codtut = eElement.getElementsByTagName("codtut").item(0).getTextContent();
+//                    String correo_electronico = eElement.getElementsByTagName("correo").item(0).getTextContent();
+//                    String telefono = eElement.getElementsByTagName("telefono").item(0).getTextContent();
+//
+//                    System.out.println("nomap: " + nombre);
+//                    System.out.println("codtut: " + codtut);
+//                    System.out.println("Correo Electronico: " + correo_electronico);
+//                    System.out.println("Telefono: " + telefono);
+
                     Element eElement = (Element) nNode;
-                    String nombre = eElement.getElementsByTagName("nombre").item(0).getTextContent();
-                    String apellidos = eElement.getElementsByTagName("apellidos").item(0).getTextContent();
-                    String correo_electronico = eElement.getElementsByTagName("correo_electronico").item(0).getTextContent();
+                    String nombre = eElement.getElementsByTagName("nomap").item(0).getTextContent();
+                    String codtut = eElement.getElementsByTagName("codtut").item(0).getTextContent();
+                    String correo_electronico = eElement.getElementsByTagName("correo").item(0).getTextContent();
                     String telefono = eElement.getElementsByTagName("telefono").item(0).getTextContent();
 
-                    String insertQuery = "INSERT INTO tutor (nombre, apellidos, correo_electronico, telefono) VALUES ('" + nombre + "', '" + apellidos + "', '" + correo_electronico + "', '" + telefono + "')";
+                    String insertQuery = "INSERT INTO tutor (nombre, apellidos, correo_electronico, telefono) VALUES ('" + nombre + "', '" + codtut + "', '" + correo_electronico + "', '" + telefono + "')";
                     statement.executeUpdate(insertQuery);
                 }
             }
