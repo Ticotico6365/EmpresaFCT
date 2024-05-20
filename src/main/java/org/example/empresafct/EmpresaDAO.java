@@ -33,7 +33,7 @@ public class EmpresaDAO {
                 empresa.setDniRepLegal(resultSet.getString("dni_responsable_legal"));
                 empresa.setNombreRepLegal(resultSet.getString("nombre_responsable_legal"));
                 empresa.setApellidosRepLegal(resultSet.getString("apellidos_responsable_legal"));
-                empresa.setDniTutLaboral(resultSet.getString("dni_responsable_legal"));
+                empresa.setDniTutLaboral(resultSet.getString("dni_tutor_laboral"));
                 empresa.setNombreTutLaboral(resultSet.getString("nombre_tutor_laboral"));
                 empresa.setApellidosTutLaboral(resultSet.getString("apellidos_tutor_laboral"));
                 empresa.setTelefonoTutLaboral(resultSet.getString("telefono_tutor_laboral"));
@@ -43,9 +43,29 @@ public class EmpresaDAO {
         return empresas;
     }
 
+    public void insertEmpresa(Empresa newEmpresa) throws SQLException {
+        String query = "INSERT INTO empresa (cif, nombre_empresa, direccion, codigo_postal, localidad, jornada, modalidad, mail, dni_responsable_legal, nombre_responsable_legal, apellidos_responsable_legal, dni_tutor_laboral, nombre_tutor_laboral, apellidos_tutor_laboral, telefono_tutor_laboral) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, newEmpresa.getCif());
+            statement.setString(2, newEmpresa.getNombre());
+            statement.setString(3, newEmpresa.getDireccion());
+            statement.setString(4, newEmpresa.getCp());
+            statement.setString(5, newEmpresa.getLocalidad());
+            statement.setString(6, newEmpresa.getJornada());
+            statement.setString(7, newEmpresa.getModalidad());
+            statement.setString(8, newEmpresa.getMail());
+            statement.setString(9, newEmpresa.getDniRepLegal());
+            statement.setString(10, newEmpresa.getNombreRepLegal());
+            statement.setString(11, newEmpresa.getApellidosRepLegal());
+            statement.setString(12, newEmpresa.getDniTutLaboral());
+            statement.setString(13, newEmpresa.getNombreTutLaboral());
+            statement.setString(14, newEmpresa.getApellidosTutLaboral());
+            statement.setString(15, newEmpresa.getTelefonoTutLaboral());
+            statement.executeUpdate();
+        }
+    }
 
-
-    public void updateEmpresa(Empresa updatedEmpresa) {
+    public void updateEmpresa(Empresa updatedEmpresa) throws SQLException {
         String query = "UPDATE empresa SET cif = ?, nombre_empresa = ?, direccion = ?, codigo_postal = ?, localidad = ?, jornada = ?, modalidad = ?, mail = ?, dni_responsable_legal = ?, nombre_responsable_legal = ?, apellidos_responsable_legal = ?, dni_tutor_laboral = ?, nombre_tutor_laboral = ?, apellidos_tutor_laboral = ?, telefono_tutor_laboral = ? WHERE codigo_empresa = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, updatedEmpresa.getCif());
@@ -65,18 +85,15 @@ public class EmpresaDAO {
             statement.setString(15, updatedEmpresa.getTelefonoTutLaboral());
             statement.setString(16, updatedEmpresa.getCodigoEmpresa());
             statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
-    public void deleteEmpresa(String codigoEmpresa) {
+    public void deleteEmpresa(String codigoEmpresa) throws SQLException {
         String query = "DELETE FROM empresa WHERE codigo_empresa = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, codigoEmpresa);
             statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
+
 }

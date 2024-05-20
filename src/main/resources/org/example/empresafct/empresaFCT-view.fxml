@@ -66,9 +66,9 @@
                   </AnchorPane>
                   <AnchorPane layoutX="92.0" layoutY="231.0" prefHeight="61.0" prefWidth="264.0" style="-fx-border-color: GRAY;">
                      <children>
-                        <Button fx:id="bt_insertar" layoutX="14.0" layoutY="18.0" mnemonicParsing="false" text="Insertar" />
-                        <Button fx:id="bt_modificar" layoutX="99.0" layoutY="18.0" mnemonicParsing="false" text="Modificar" />
-                        <Button fx:id="bt_eliminar" layoutX="192.0" layoutY="18.0" mnemonicParsing="false" text="Eliminar" />
+                         <Button fx:id="bt_insertar" layoutX="14.0" layoutY="18.0" mnemonicParsing="false" onAction="#insertEmpresa" text="Insertar" />
+                         <Button fx:id="bt_modificar" layoutX="99.0" layoutY="18.0" mnemonicParsing="false" text="Modificar" />
+                         <Button fx:id="bt_eliminar" layoutX="192.0" layoutY="18.0" mnemonicParsing="false" text="Eliminar" />
                      </children>
                   </AnchorPane>
                   <Label layoutX="22.0" layoutY="305.0" text="Reflejo de la tabla de datos" />
