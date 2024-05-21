@@ -73,17 +73,37 @@ public class HelloController {
         // Llama a los métodos para obtener los datos de las listas desplegables
         // Obtén los alumnos de la base de datos
         List<String> alumnos = obtenerAlumnos();
-        System.out.printf("Alumnos: %s\n", alumnos);
+        List<String> empresas = obtenerEmpresas();
+        List<String> tutores = obtenerTutores();
 
+       // System.out.printf("Alumnos: %s\n", alumnos);
         // Limpia los elementos existentes
         smb_eleccionAlumno.getItems().clear();
+        smb_eleccionEmpresa.getItems().clear();
+        smb_eleccionTutor.getItems().clear();
 
         // Agrega los alumnos a la lista desplegable
         for (String alumno : alumnos) {
             MenuItem item = new MenuItem(alumno);
-            item.setOnAction(event -> smb_eleccionAlumno.setText(alumno));
-            smb_eleccionAlumno.getItems().add(item);
+            item.setOnAction(event -> {
+                    smb_eleccionAlumno.setText(alumno); alumnoSeleccionado = alumno; });
+                smb_eleccionAlumno.getItems().add(item);
         }
+        for (String empresa : empresas) {
+            MenuItem item = new MenuItem(empresa);
+            item.setOnAction(event -> {
+                    smb_eleccionEmpresa.setText(empresa);
+                    empresaSeleccionada = empresa; });
+            smb_eleccionEmpresa.getItems().add(item);
+        }
+        for (String tutor : tutores) {
+            MenuItem item = new MenuItem(tutor);
+            item.setOnAction(event -> {
+                    smb_eleccionTutor.setText(tutor);
+                    tutorSeleccionado = tutor; });
+            smb_eleccionTutor.getItems().add(item);
+        }
+
     }
 
     private List<String> obtenerAlumnos() {
@@ -185,7 +205,7 @@ public class HelloController {
 
     private boolean alumnoEstaAsignado(String alumnoSeleccionado) {
         // Implementa este método para comprobar si el alumno ya está asignado
-        String sql = "SELECT * FROM Asignados WHERE alumno = ?";
+        String sql = "SELECT * FROM Asignados WHERE id_alumno = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -199,6 +219,26 @@ public class HelloController {
         }
 
         return false;
+    }
+
+    private String obtenerNombreTutorLaboral(String tutorSeleccionado) {
+        // Implementa este método para obtener el nombre del tutor laboral de la base de datos
+        String sql = "SELECT nombre FROM tutor WHERE id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, tutorSeleccionado);
+            ResultSet rs = pstmt.executeQuery();
+
+            // Si hay resultados, devuelve el nombre del tutor
+            if (rs.next()) {
+                return rs.getString("nombre");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
     }
 
 
@@ -220,25 +260,7 @@ public class HelloController {
 
 
 
-    private String obtenerNombreTutorLaboral(String tutorSeleccionado) {
-        // Implementa este método para obtener el nombre del tutor laboral de la base de datos
-        String sql = "SELECT nombre FROM tutor WHERE id = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, tutorSeleccionado);
-            ResultSet rs = pstmt.executeQuery();
-
-            // Si hay resultados, devuelve el nombre del tutor
-            if (rs.next()) {
-                return rs.getString("nombre");
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-        return null;
-    }
 
     public void click_bt_crearDATalumnos(ActionEvent actionEvent) {
         try {
@@ -294,19 +316,6 @@ public class HelloController {
 
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
-//                    System.out.println("\nCurrent Element: " + nNode.getNodeName());
-//                    System.out.println();
-//
-//                    Element eElement = (Element) nNode;
-//                    String nombre = eElement.getElementsByTagName("nomap").item(0).getTextContent();
-//                    String codtut = eElement.getElementsByTagName("codtut").item(0).getTextContent();
-//                    String correo_electronico = eElement.getElementsByTagName("correo").item(0).getTextContent();
-//                    String telefono = eElement.getElementsByTagName("telefono").item(0).getTextContent();
-//
-//                    System.out.println("nomap: " + nombre);
-//                    System.out.println("codtut: " + codtut);
-//                    System.out.println("Correo Electronico: " + correo_electronico);
-//                    System.out.println("Telefono: " + telefono);
 
                     Element eElement = (Element) nNode;
                     String nombre = eElement.getElementsByTagName("nomap").item(0).getTextContent();

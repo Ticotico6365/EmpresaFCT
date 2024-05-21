@@ -96,6 +96,19 @@ public class AlunmosController {
                     String correo_electronico = eElement.getElementsByTagName("correo_electronico").item(0).getTextContent();
                     String telefono = eElement.getElementsByTagName("telefono").item(0).getTextContent();
 
+                    // Aquí es donde validamos el valor de idEmpresa
+                    String idEmpresaStr = eElement.getElementsByTagName("id_empresa").item(0).getTextContent();
+                    int idEmpresa;
+
+                    try {
+                        idEmpresa = Integer.parseInt(idEmpresaStr);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Error: id_empresa debe ser un entero.");
+                        return;
+                    }
+
+
+
                     String insertQuery = "INSERT INTO tutor (nombre, apellidos, correo_electronico, telefono) VALUES ('" + nombre + "', '" + apellidos + "', '" + correo_electronico + "', '" + telefono + "')";
                     statement.executeUpdate(insertQuery);
                 }

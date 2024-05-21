@@ -25,8 +25,8 @@
                   <Label fx:id="label_informacionCompleta" layoutX="213.0" layoutY="307.0" onDragDetected="#muestra_informacionCompleta" prefHeight="17.0" prefWidth="174.0" style="-fx-background-color: grey" />
                   <SplitMenuButton fx:id="smb_eleccionAlumno" layoutX="225.0" layoutY="107.0" mnemonicParsing="false" onAction="#click_smb_eleccionAlumno" prefHeight="25.0" prefWidth="214.0">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Action 1" />
-                      <MenuItem mnemonicParsing="false" text="Action 2" />
+                        <MenuItem mnemonicParsing="false" text="Action 1" />
+                        <MenuItem mnemonicParsing="false" text="Action 2" />
                     </items>
                   </SplitMenuButton>
                   <SplitMenuButton fx:id="smb_eleccionEmpresa" layoutX="225.0" layoutY="149.0" mnemonicParsing="false" onAction="#click_smb_eleccionEmpresa" prefHeight="25.0" prefWidth="215.0">
