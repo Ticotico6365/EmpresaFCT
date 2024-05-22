@@ -138,13 +138,21 @@ public class HelloController {
     }
 
     @FXML
-    public void click_bt_confirmarAsignacion() {
+    public void click_bt_confirmarAsignacion() throws Exception {
 
 
         // Comprueba si el alumno ya está asignado
         if (alumnoEstaAsignado(alumnoSeleccionado)) {
             label_informacionCompleta.setText("El alumno ya está asignado.");
             return;
+        }
+        Alumno alumno = new Alumno();
+
+        for (Alumno a : getAlumnosFromDatabase()) {
+            if (a.getNombre().equals(alumnoSeleccionado)) {
+                alumno = a;
+                break;
+            }
         }
 
         //Llamar al método guardarAsignación
@@ -167,14 +175,32 @@ public class HelloController {
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, alumno);
-            pstmt.setString(2, empresa);
-            pstmt.setString(3, tutor);
+            pstmt.setInt(1, buscarId("alumno", "nombre", alumno));
+            pstmt.setInt(2, buscarId("empresa", "nombre_empresa", empresa));
+            pstmt.setInt(3, buscarId("tutor", "nombre", tutor));
             pstmt.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public Integer buscarId(String tabla, String columna, String valor) {
+        String sql = "SELECT id FROM " + tabla + " WHERE " + columna + " = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, valor);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
     }
 
     @FXML
@@ -223,16 +249,16 @@ public class HelloController {
 
     private String obtenerNombreTutorLaboral(String tutorSeleccionado) {
         // Implementa este método para obtener el nombre del tutor laboral de la base de datos
-        String sql = "SELECT nombre FROM tutor WHERE id = ?";
+        String sql = "SELECT nombre_tutor_laboral FROM empresa WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, tutorSeleccionado);
+            pstmt.setInt(1, buscarId("tutor", "nombre", tutorSeleccionado));
             ResultSet rs = pstmt.executeQuery();
 
             // Si hay resultados, devuelve el nombre del tutor
             if (rs.next()) {
-                return rs.getString("nombre");
+                return rs.getString("nombre_tutor_laboral");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -265,7 +291,7 @@ public class HelloController {
     public void click_bt_crearDATalumnos(ActionEvent actionEvent) {
         try {
             List<Alumno> alumnos = getAlumnosFromDatabase();
-            writeAlumnosToFile(alumnos, "C:/Users/damda/OneDrive/Documentos/EmpresaFCT/alumnos.dat");
+            writeAlumnosToFile(alumnos, "alumnos.dat");
             lab_infoAlumnos.setText("File created: alumnos.dat");
         } catch (Exception e) {
             e.printStackTrace();
@@ -274,13 +300,14 @@ public class HelloController {
         bt_crearDATalumnos.setDisable(true);
     }
 
-    private List<Alumno> getAlumnosFromDatabase() throws Exception {
+    private static List<Alumno> getAlumnosFromDatabase() throws Exception {
         List<Alumno> alumnos = new ArrayList<>();
         Connection connection = DatabaseConnection.getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM alumno");
         while (resultSet.next()) {
             Alumno alumno = new Alumno(
+                    resultSet.getInt("id"),
                     resultSet.getString("nombre"),
                     resultSet.getString("apellidos"),
                     resultSet.getString("dni"),
@@ -300,7 +327,7 @@ public class HelloController {
 
     public static void readXMLFileAndSaveToDatabase() {
         try {
-            File inputFile = new File("C:/Users/damda/OneDrive/Documentos/EmpresaFCT/tutoresdoc.xml");
+            File inputFile = new File("tutoresdoc.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(inputFile);
@@ -336,6 +363,8 @@ public class HelloController {
         lab_infoTutores.setText("Información del fichero ahora registrada en la tabla tutores.");
         bt_crearXMLtutores.setDisable(true);
     }
+
+
 
 
 

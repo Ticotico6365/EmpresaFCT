@@ -129,7 +129,7 @@
                       <Label layoutX="98.0" layoutY="153.0" text="Elección de Empresa:" />
                       <Label layoutX="113.0" layoutY="198.0" text="Elección de Tutor:" />
 
-                      <Label fx:id="label_informacionCompleta" layoutX="213.0" layoutY="307.0" onDragDetected="#muestra_informacionCompleta" prefHeight="17.0" prefWidth="174.0" style="-fx-background-color: grey" />
+                      <Label fx:id="label_informacionCompleta" layoutX="3.0" layoutY="307.0" onDragDetected="#muestra_informacionCompleta" prefHeight="127.0" prefWidth="600.0" style="-fx-background-color: grey" styleClass="-fx-text-wrap: wrap" />
                       <SplitMenuButton fx:id="smb_eleccionAlumno" layoutX="225.0" layoutY="107.0" mnemonicParsing="false" onAction="#click_smb_eleccionAlumno" prefHeight="25.0" prefWidth="214.0">
 <!--                          <items>-->
 <!--                              <MenuItem mnemonicParsing="false" text="Action 1" />-->
