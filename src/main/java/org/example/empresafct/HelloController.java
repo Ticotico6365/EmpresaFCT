@@ -3,7 +3,6 @@ package org.example.empresafct;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -17,17 +16,13 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.MenuItem;
@@ -42,8 +37,6 @@ import javafx.geometry.Insets;
 
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class HelloController {
     public Tab tap_alumnos;
@@ -253,14 +246,16 @@ public class HelloController {
 
     @FXML
     private void guardarAsignacion(String alumno, String empresa, String tutor) {
-        String sql = "INSERT INTO Asignados (id_alumno, id_empresa, id_tutor, fecha_hora) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Asignados (id_alumno, id_empresa, id_tutor, fecha, hora) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, buscarId("alumno", "nombre", alumno));
             pstmt.setInt(2, buscarId("empresa", "nombre_empresa", empresa));
             pstmt.setInt(3, buscarId("tutor", "nombre", tutor));
-            pstmt.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+            pstmt.setDate(4, Date.valueOf(LocalDate.now()));
+            pstmt.setTime(5, Time.valueOf(LocalDateTime.now().toLocalTime()));
+
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -600,5 +595,14 @@ public class HelloController {
         ObservableList<Empresa> data = FXCollections.observableArrayList(getEmpresas());
         tab_reflejo_Tabla_De_Datos.setItems(data);
         tab_reflejo_Tabla_De_Datos.refresh();
+    }
+
+    public void click_smb_eleccionEmpresa(ActionEvent actionEvent) {
+    }
+
+    public void click_smb_eleccionAlumno(ActionEvent actionEvent) {
+    }
+
+    public void click_smb_eleccionTutor(ActionEvent actionEvent) {
     }
 }
