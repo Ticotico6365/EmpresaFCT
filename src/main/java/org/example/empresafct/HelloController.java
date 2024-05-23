@@ -3,9 +3,12 @@ package org.example.empresafct;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -81,6 +84,9 @@ public class HelloController {
         smb_eleccionAlumno.getItems().clear();
         smb_eleccionEmpresa.getItems().clear();
         smb_eleccionTutor.getItems().clear();
+
+        label_informacionCompleta.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+
 
         // Agrega los alumnos a la lista desplegable
         for (String alumno : alumnos) {
@@ -249,7 +255,7 @@ public class HelloController {
 
     private String obtenerNombreTutorLaboral(String tutorSeleccionado) {
         // Implementa este método para obtener el nombre del tutor laboral de la base de datos
-        String sql = "SELECT nombre_tutor_laboral FROM empresa WHERE id = ?";
+        String sql = "SELECT nombre_tutor_laboral, apellidos_tutor_laboral FROM empresa WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -258,7 +264,9 @@ public class HelloController {
 
             // Si hay resultados, devuelve el nombre del tutor
             if (rs.next()) {
-                return rs.getString("nombre_tutor_laboral");
+                String nombre = rs.getString("nombre_tutor_laboral");
+                String apellidos = rs.getString("apellidos_tutor_laboral");
+                return nombre + " " + apellidos;
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -274,13 +282,16 @@ public class HelloController {
         String nombreTutorLaboral = obtenerNombreTutorLaboral(tutorSeleccionado);
 
         // Forma el mensaje a mostrar
-        String mensaje = " El alumno " + alumnoSeleccionado + " queda asignado a la empresa" + empresaSeleccionada + "\n" +
-                "supervisado por el tutor docente" +  tutorSeleccionado + "y por el tutor laboral" +  nombreTutorLaboral + ".";
+        String mensaje = "     El alumno " + alumnoSeleccionado + " queda asignado a la empresa " + empresaSeleccionada + "\n" +
+                " supervisado por el tutor docente " + "\n" + tutorSeleccionado + " y por el tutor laboral " +  nombreTutorLaboral + ".";
 
         // Muestra el mensaje en la etiqueta
+
         label_informacionCompleta.setText(mensaje);
-        label_informacionCompleta.setFont(Font.font("Arial"));
+        label_informacionCompleta.setFont(Font.font("Arial", FontWeight.BOLD, 12));
         label_informacionCompleta.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, CornerRadii.EMPTY, Insets.EMPTY)));
+        label_informacionCompleta.setTextAlignment(TextAlignment.CENTER);
+        label_informacionCompleta.setAlignment(Pos.CENTER);
     }
 
 

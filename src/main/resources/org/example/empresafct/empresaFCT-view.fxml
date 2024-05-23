@@ -8,7 +8,7 @@
   <tabs>
     <Tab text="Empresas">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="476.0" prefWidth="600.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="476.0" prefWidth="600.0" stylesheets="">
                <children>
                   <Label layoutX="129.0" layoutY="14.0" prefHeight="17.0" prefWidth="200.0" text="GESTION DE DATOS DE EMPRESAS" />
                   <Label layoutX="22.0" layoutY="37.0" prefHeight="17.0" prefWidth="56.0" text="Empresa" />
@@ -128,25 +128,24 @@
                       <Label layoutX="99.0" layoutY="111.0" text="Elección de Alumno:" />
                       <Label layoutX="98.0" layoutY="153.0" text="Elección de Empresa:" />
                       <Label layoutX="113.0" layoutY="198.0" text="Elección de Tutor:" />
-
-                      <Label fx:id="label_informacionCompleta" layoutX="3.0" layoutY="307.0" onDragDetected="#muestra_informacionCompleta" prefHeight="127.0" prefWidth="600.0" style="-fx-background-color: grey" styleClass="-fx-text-wrap: wrap" />
+                      <Label fx:id="label_informacionCompleta" layoutX="60.0" layoutY="312.0" onDragDetected="#muestra_informacionCompleta" prefHeight="128.0" prefWidth="474.0" style="-fx-background-color: LIGHTGREY; -fx-font-family: Arial; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0);" />
                       <SplitMenuButton fx:id="smb_eleccionAlumno" layoutX="225.0" layoutY="107.0" mnemonicParsing="false" onAction="#click_smb_eleccionAlumno" prefHeight="25.0" prefWidth="214.0">
-<!--                          <items>-->
-<!--                              <MenuItem mnemonicParsing="false" text="Action 1" />-->
-<!--                              <MenuItem mnemonicParsing="false" text="Action 2" />-->
-<!--                          </items>-->
+                          <items>
+                              <MenuItem mnemonicParsing="false" text="Action 1" />
+                              <MenuItem mnemonicParsing="false" text="Action 2" />
+                          </items>
                       </SplitMenuButton>
                       <SplitMenuButton fx:id="smb_eleccionEmpresa" layoutX="225.0" layoutY="149.0" mnemonicParsing="false" onAction="#click_smb_eleccionEmpresa" prefHeight="25.0" prefWidth="215.0">
-<!--                          <items>-->
-<!--                              <MenuItem mnemonicParsing="false" text="Action 1" />-->
-<!--                              <MenuItem mnemonicParsing="false" text="Action 2" />-->
-<!--                          </items>-->
+                          <items>
+                              <MenuItem mnemonicParsing="false" text="Action 1" />
+                              <MenuItem mnemonicParsing="false" text="Action 2" />
+                          </items>
                       </SplitMenuButton>
                       <SplitMenuButton fx:id="smb_eleccionTutor" layoutX="225.0" layoutY="194.0" mnemonicParsing="false" onAction="#click_smb_eleccionTutor" prefHeight="25.0" prefWidth="214.0">
-<!--                          <items>-->
-<!--                              <MenuItem mnemonicParsing="false" text="Action 1" />-->
-<!--                              <MenuItem mnemonicParsing="false" text="Action 2" />-->
-<!--                          </items>-->
+                          <items>
+                              <MenuItem mnemonicParsing="false" text="Action 1" />
+                              <MenuItem mnemonicParsing="false" text="Action 2" />
+                          </items>
                       </SplitMenuButton>
                   </children></AnchorPane>
           </content>
