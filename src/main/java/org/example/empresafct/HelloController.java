@@ -1,11 +1,11 @@
 package org.example.empresafct;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -13,21 +13,13 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SplitMenuButton;
+
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.layout.Background;
@@ -48,6 +40,34 @@ public class HelloController {
     public Tab tab_tutores;
     public Button bt_crearXMLtutores;
     public Label lab_infoTutores;
+    public TextField txt_dni_Rep_Legal;
+    public TextField txt_dni_Tut_Laboral;
+    public TextField txt_nombre_Rl;
+    public TextField txt_nombre_Tl;
+    public TextField txt_apellidos_Tl;
+    public TextField txt_tlfTL;
+    public TextField txt_apellidos_Rl;
+    public Button bt_insertar;
+    public Button bt_modificar;
+    public Button bt_eliminar;
+    public TextField txt_codigo_Empresa;
+    public TextField txt_CIF;
+    public TextField txt_nombre;
+    public TextField txt_direccion;
+    public TextField txt_CP;
+    public TextField txt_localidad;
+    public TextField txt_mail;
+    public TableView<Empresa> tab_reflejo_Tabla_De_Datos;
+    public TableColumn<Empresa, String> col_cif;
+    public TableColumn<Empresa, String> col_nombre;
+    public TableColumn<Empresa, String> col_direccion;
+    public TableColumn<Empresa, String> col_cp;
+    public TableColumn<Empresa, String> col_localidad;
+    public TableColumn<Empresa, String> col_jornada;
+    public TableColumn<Empresa, String> col_modalidad;
+    public TableColumn<Empresa, String> col_correo;
+    public ChoiceBox smb_jornada;
+    public ChoiceBox smb_modalidad;
     @FXML
     private Button bt_confirmarAsignacion;
 
@@ -70,13 +90,15 @@ public class HelloController {
 
 
     public void initialize() {
+
+        //Métodos de la parte de la pestaña de Asignación
         // Llama a los métodos para obtener los datos de las listas desplegables
         // Obtén los alumnos de la base de datos
         List<String> alumnos = obtenerAlumnos();
         List<String> empresas = obtenerEmpresas();
         List<String> tutores = obtenerTutores();
 
-       // System.out.printf("Alumnos: %s\n", alumnos);
+        // System.out.printf("Alumnos: %s\n", alumnos);
         // Limpia los elementos existentes
         smb_eleccionAlumno.getItems().clear();
         smb_eleccionEmpresa.getItems().clear();
@@ -86,28 +108,73 @@ public class HelloController {
         for (String alumno : alumnos) {
             MenuItem item = new MenuItem(alumno);
             item.setOnAction(event -> {
-                    smb_eleccionAlumno.setText(alumno); alumnoSeleccionado = alumno; });
-                smb_eleccionAlumno.getItems().add(item);
+                smb_eleccionAlumno.setText(alumno);
+                alumnoSeleccionado = alumno;
+            });
+            smb_eleccionAlumno.getItems().add(item);
         }
         for (String empresa : empresas) {
             MenuItem item = new MenuItem(empresa);
             item.setOnAction(event -> {
-                    smb_eleccionEmpresa.setText(empresa);
-                    empresaSeleccionada = empresa; });
+                smb_eleccionEmpresa.setText(empresa);
+                empresaSeleccionada = empresa;
+            });
             smb_eleccionEmpresa.getItems().add(item);
         }
         for (String tutor : tutores) {
             MenuItem item = new MenuItem(tutor);
             item.setOnAction(event -> {
-                    smb_eleccionTutor.setText(tutor);
-                    tutorSeleccionado = tutor; });
+                smb_eleccionTutor.setText(tutor);
+                tutorSeleccionado = tutor;
+            });
             smb_eleccionTutor.getItems().add(item);
         }
+
+        //Métodos para la pestaña de Empresas
+        // Agrega los elementos a los menús desplegables
+        smb_jornada.getItems().addAll("Mañana", "Tarde", "Completa");
+        smb_modalidad.getItems().addAll("Presencial", "Online", "Mixta");
+
+        // Inicializa la tabla de reflejo de datos
+        col_cif.setCellValueFactory(new PropertyValueFactory<>("cif"));
+        col_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre_empresa"));
+        col_direccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+        col_cp.setCellValueFactory(new PropertyValueFactory<>("codigo_postal"));
+        col_localidad.setCellValueFactory(new PropertyValueFactory<>("localidad"));
+        col_jornada.setCellValueFactory(new PropertyValueFactory<>("jornada"));
+        col_modalidad.setCellValueFactory(new PropertyValueFactory<>("modalidad"));
+        col_correo.setCellValueFactory(new PropertyValueFactory<>("mail"));
+
+        ObservableList<Empresa> data = FXCollections.observableArrayList(getEmpresas());
+        tab_reflejo_Tabla_De_Datos.setItems(data);
+
+        // Agrega un listener al elemento seleccionado de la tabla
+        tab_reflejo_Tabla_De_Datos.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                // Rellena los campos de texto con los valores del elemento seleccionado
+                txt_codigo_Empresa.setText(newSelection.getCodigo_emrpresa());
+                txt_CIF.setText(newSelection.getCif());
+                txt_nombre.setText(newSelection.getNombre_empresa());
+                txt_direccion.setText(newSelection.getDireccion());
+                txt_CP.setText(newSelection.getCodigo_postal());
+                txt_localidad.setText(newSelection.getLocalidad());
+                smb_jornada.setValue(newSelection.getJornada());
+                smb_modalidad.setValue(newSelection.getModalidad());
+                txt_mail.setText(newSelection.getMail());
+                txt_dni_Rep_Legal.setText(newSelection.getDni_responsable_legal());
+                txt_dni_Tut_Laboral.setText(newSelection.getDni_tutor_legal());
+                txt_nombre_Rl.setText(newSelection.getNombre_responsable_legal());
+                txt_nombre_Tl.setText(newSelection.getNombre_tutor_laboral());
+                txt_apellidos_Rl.setText(newSelection.getApellidos_responsable_legal());
+                txt_apellidos_Tl.setText(newSelection.getApellidos_tutor_laboral());
+                txt_tlfTL.setText(newSelection.getTelefono_tutor_laboral());
+            }
+        });
 
     }
 
     private List<String> obtenerAlumnos() {
-        return obtenerDatos("alumno","nombre");
+        return obtenerDatos("alumno", "nombre");
     }
 
     private List<String> obtenerEmpresas() {
@@ -159,7 +226,7 @@ public class HelloController {
         guardarAsignacion(alumnoSeleccionado, empresaSeleccionada, tutorSeleccionado);
 
         // Comprobar si el alumno ya está asignado
-        if (alumnoEstaAsignado(alumnoSeleccionado)){
+        if (alumnoEstaAsignado(alumnoSeleccionado)) {
             label_informacionCompleta.setText("El alumno ya está asignado");
         }
 
@@ -206,6 +273,7 @@ public class HelloController {
     @FXML
     public void click_smb_eleccionAlumno() {
     }
+
     @FXML
     public void click_smb_eleccionEmpresa() {
 //        // Obtén las empresas de la base de datos
@@ -217,6 +285,7 @@ public class HelloController {
 //        // Agrega las empresas a la lista desplegable
 //        smb_eleccionEmpresa.getItems().addAll((MenuItem) empresas);
     }
+
     @FXML
     public void click_smb_eleccionTutor() {
 //        // Obtén los tutores de la base de datos
@@ -275,17 +344,13 @@ public class HelloController {
 
         // Forma el mensaje a mostrar
         String mensaje = " El alumno " + alumnoSeleccionado + " queda asignado a la empresa" + empresaSeleccionada + "\n" +
-                "supervisado por el tutor docente" +  tutorSeleccionado + "y por el tutor laboral" +  nombreTutorLaboral + ".";
+                "supervisado por el tutor docente" + tutorSeleccionado + "y por el tutor laboral" + nombreTutorLaboral + ".";
 
         // Muestra el mensaje en la etiqueta
         label_informacionCompleta.setText(mensaje);
         label_informacionCompleta.setFont(Font.font("Arial"));
         label_informacionCompleta.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, CornerRadii.EMPTY, Insets.EMPTY)));
     }
-
-
-
-
 
 
     public void click_bt_crearDATalumnos(ActionEvent actionEvent) {
@@ -358,14 +423,189 @@ public class HelloController {
             e.printStackTrace();
         }
     }
+
     public void click_bt_crearXMLtutores(ActionEvent actionEvent) {
         readXMLFileAndSaveToDatabase();
         lab_infoTutores.setText("Información del fichero ahora registrada en la tabla tutores.");
         bt_crearXMLtutores.setDisable(true);
     }
 
+    public static List<Empresa> getEmpresas() {
+        List<Empresa> empresas = new ArrayList<>();
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM empresa");
+            while (resultSet.next()) {
+                Empresa empresa = new Empresa(
+                        resultSet.getInt("id"),
+                        resultSet.getString("codigo_empresa"),
+                        resultSet.getString("cif"),
+                        resultSet.getString("nombre_empresa"),
+                        resultSet.getString("direccion"),
+                        resultSet.getString("codigo_postal"),
+                        resultSet.getString("localidad"),
+                        resultSet.getString("jornada"),
+                        resultSet.getString("modalidad"),
+                        resultSet.getString("mail"),
+                        resultSet.getString("dni_responsable_legal"),
+                        resultSet.getString("dni_tutor_legal"),
+                        resultSet.getString("nombre_responsable_legal"),
+                        resultSet.getString("nombre_tutor_laboral"),
+                        resultSet.getString("apellidos_responsable_legal"),
+                        resultSet.getString("apellidos_tutor_laboral"),
+                        resultSet.getString("telefono_tutor_laboral")
+                );
+                empresas.add(empresa);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return empresas;
+    }
 
+    public void insertEmpresa(Empresa empresa) {
+        String sql = "INSERT INTO empresa (codigo_empresa, cif, nombre_empresa, direccion, codigo_postal, localidad, jornada, modalidad, mail, dni_responsable_legal, dni_tutor_legal, nombre_responsable_legal, nombre_tutor_laboral, apellidos_responsable_legal, apellidos_tutor_laboral, telefono_tutor_laboral) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, empresa.getCodigo_emrpresa());
+            pstmt.setString(2, empresa.getCif());
+            pstmt.setString(3, empresa.getNombre_empresa());
+            pstmt.setString(4, empresa.getDireccion());
+            pstmt.setString(5, empresa.getCodigo_postal());
+            pstmt.setString(6, empresa.getLocalidad());
+            pstmt.setString(7, empresa.getJornada());
+            pstmt.setString(8, empresa.getModalidad());
+            pstmt.setString(9, empresa.getMail());
+            pstmt.setString(10, empresa.getDni_responsable_legal());
+            pstmt.setString(11, empresa.getDni_tutor_legal());
+            pstmt.setString(12, empresa.getNombre_responsable_legal());
+            pstmt.setString(13, empresa.getNombre_tutor_laboral());
+            pstmt.setString(14, empresa.getApellidos_responsable_legal());
+            pstmt.setString(15, empresa.getApellidos_tutor_laboral());
+            pstmt.setString(16, empresa.getTelefono_tutor_laboral());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
+    public static void updateEmpresa(Empresa empresa) {
+        String query = "UPDATE empresa SET codigo_empresa = '" + empresa.getCodigo_emrpresa() + "', cif = '" + empresa.getCif() + "', nombre_empresa = '" + empresa.getNombre_empresa() + "', direccion = '" + empresa.getDireccion() + "', codigo_postal = '" + empresa.getCodigo_postal() + "', localidad = '" + empresa.getLocalidad() + "', jornada = '" + empresa.getJornada() + "', modalidad = '" + empresa.getModalidad() + "', mail = '" + empresa.getMail() + "', dni_responsable_legal = '" + empresa.getDni_responsable_legal() + "', dni_tutor_legal = '" + empresa.getDni_tutor_legal() + "', nombre_responsable_legal = '" + empresa.getNombre_responsable_legal() + "', nombre_tutor_laboral = '" + empresa.getNombre_tutor_laboral() + "', apellidos_responsable_legal = '" + empresa.getApellidos_responsable_legal() + "', apellidos_tutor_laboral = '" + empresa.getApellidos_tutor_laboral() + "', telefono_tutor_laboral = '" + empresa.getTelefono_tutor_laboral() + "' WHERE id = " + empresa.getId();
+        try (Connection connection = DatabaseConnection.getConnection();
+             Statement statement = connection.createStatement()) {
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public static void deleteEmpresa(Empresa empresa) {
+        String query = "DELETE FROM empresa WHERE id = " + empresa.getId();
+        try (Connection connection = DatabaseConnection.getConnection();
+             Statement statement = connection.createStatement()) {
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Integer buscarIdEmpresa(Empresa empresa) {
+        String sql = "SELECT id FROM empresa WHERE codigo_empresa = ? AND cif = ? AND nombre_empresa = ? AND direccion = ? AND codigo_postal = ? AND localidad = ? AND jornada = ? AND modalidad = ? AND mail = ? AND dni_responsable_legal = ? AND dni_tutor_legal = ? AND nombre_responsable_legal = ? AND nombre_tutor_laboral = ? AND apellidos_responsable_legal = ? AND apellidos_tutor_laboral = ? AND telefono_tutor_laboral = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, empresa.getCodigo_emrpresa());
+            pstmt.setString(2, empresa.getCif());
+            pstmt.setString(3, empresa.getNombre_empresa());
+            pstmt.setString(4, empresa.getDireccion());
+            pstmt.setString(5, empresa.getCodigo_postal());
+            pstmt.setString(6, empresa.getLocalidad());
+            pstmt.setString(7, empresa.getJornada());
+            pstmt.setString(8, empresa.getModalidad());
+            pstmt.setString(9, empresa.getMail());
+            pstmt.setString(10, empresa.getDni_responsable_legal());
+            pstmt.setString(11, empresa.getDni_tutor_legal());
+            pstmt.setString(12, empresa.getNombre_responsable_legal());
+            pstmt.setString(13, empresa.getNombre_tutor_laboral());
+            pstmt.setString(14, empresa.getApellidos_responsable_legal());
+            pstmt.setString(15, empresa.getApellidos_tutor_laboral());
+            pstmt.setString(16, empresa.getTelefono_tutor_laboral());
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public void click_bt_insertar(ActionEvent actionEvent) {
+        Empresa empresa = new Empresa();
+        empresa.setCodigo_emrpresa(txt_codigo_Empresa.getText());
+        empresa.setCif(txt_CIF.getText());
+        empresa.setNombre_empresa(txt_nombre.getText());
+        empresa.setDireccion(txt_direccion.getText());
+        empresa.setCodigo_postal(txt_CP.getText());
+        empresa.setLocalidad(txt_localidad.getText());
+        empresa.setJornada(smb_jornada.getValue().toString());
+        empresa.setModalidad(smb_modalidad.getValue().toString());
+        empresa.setMail(txt_mail.getText());
+        empresa.setDni_responsable_legal(txt_dni_Rep_Legal.getText());
+        empresa.setDni_tutor_legal(txt_dni_Tut_Laboral.getText());
+        empresa.setNombre_responsable_legal(txt_nombre_Rl.getText());
+        empresa.setNombre_tutor_laboral(txt_nombre_Tl.getText());
+        empresa.setApellidos_responsable_legal(txt_apellidos_Rl.getText());
+        empresa.setApellidos_tutor_laboral(txt_apellidos_Tl.getText());
+        empresa.setTelefono_tutor_laboral(txt_tlfTL.getText());
+        insertEmpresa(empresa);
+
+        ObservableList<Empresa> data = FXCollections.observableArrayList(getEmpresas());
+        tab_reflejo_Tabla_De_Datos.setItems(data);
+        tab_reflejo_Tabla_De_Datos.refresh();
+    }
+
+    public void click_bt_modificar(ActionEvent actionEvent) {
+        Empresa empresa = tab_reflejo_Tabla_De_Datos.getSelectionModel().getSelectedItem();
+        empresa.setCodigo_emrpresa(txt_codigo_Empresa.getText());
+        empresa.setCif(txt_CIF.getText());
+        empresa.setNombre_empresa(txt_nombre.getText());
+        empresa.setDireccion(txt_direccion.getText());
+        empresa.setCodigo_postal(txt_CP.getText());
+        empresa.setLocalidad(txt_localidad.getText());
+        empresa.setJornada(smb_jornada.getValue().toString());
+        empresa.setModalidad(smb_modalidad.getValue().toString());
+        empresa.setMail(txt_mail.getText());
+        empresa.setDni_responsable_legal(txt_dni_Rep_Legal.getText());
+        empresa.setDni_tutor_legal(txt_dni_Tut_Laboral.getText());
+        empresa.setNombre_responsable_legal(txt_nombre_Rl.getText());
+        empresa.setNombre_tutor_laboral(txt_nombre_Tl.getText());
+        empresa.setApellidos_responsable_legal(txt_apellidos_Rl.getText());
+        empresa.setApellidos_tutor_laboral(txt_apellidos_Tl.getText());
+        empresa.setTelefono_tutor_laboral(txt_tlfTL.getText());
+        updateEmpresa(empresa);
+        tab_reflejo_Tabla_De_Datos.refresh();
+    }
+
+    public void click_bt_eliminar(ActionEvent actionEvent) {
+        // Obtiene la empresa seleccionada en la tabla
+        Empresa empresa = tab_reflejo_Tabla_De_Datos.getSelectionModel().getSelectedItem();
+
+        // Si no hay ninguna empresa seleccionada, termina el método
+        if (empresa == null) {
+            return;
+        }
+
+        // Elimina la empresa de la base de datos
+        deleteEmpresa(empresa);
+
+        // Actualiza la tabla
+        ObservableList<Empresa> data = FXCollections.observableArrayList(getEmpresas());
+        tab_reflejo_Tabla_De_Datos.setItems(data);
+        tab_reflejo_Tabla_De_Datos.refresh();
+    }
 }
