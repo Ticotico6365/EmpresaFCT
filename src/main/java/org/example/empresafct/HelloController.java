@@ -3,9 +3,13 @@ package org.example.empresafct;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -13,13 +17,21 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-
+import java.util.ArrayList;
+import java.util.List;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitMenuButton;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.layout.Background;
@@ -104,7 +116,11 @@ public class HelloController {
         smb_eleccionEmpresa.getItems().clear();
         smb_eleccionTutor.getItems().clear();
 
-        // Agrega los alumnos a la lista desplegable
+        label_informacionCompleta.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+
+
+        // Agrega los alumnos, empresa y tutor a la lista desplegable
+
         for (String alumno : alumnos) {
             MenuItem item = new MenuItem(alumno);
             item.setOnAction(event -> {
@@ -113,20 +129,19 @@ public class HelloController {
             });
             smb_eleccionAlumno.getItems().add(item);
         }
+
         for (String empresa : empresas) {
             MenuItem item = new MenuItem(empresa);
             item.setOnAction(event -> {
-                smb_eleccionEmpresa.setText(empresa);
-                empresaSeleccionada = empresa;
-            });
+                    smb_eleccionEmpresa.setText(empresa);
+                    empresaSeleccionada = empresa; });
             smb_eleccionEmpresa.getItems().add(item);
         }
         for (String tutor : tutores) {
             MenuItem item = new MenuItem(tutor);
             item.setOnAction(event -> {
-                smb_eleccionTutor.setText(tutor);
-                tutorSeleccionado = tutor;
-            });
+                    smb_eleccionTutor.setText(tutor);
+                    tutorSeleccionado = tutor; });
             smb_eleccionTutor.getItems().add(item);
         }
 
@@ -174,7 +189,7 @@ public class HelloController {
     }
 
     private List<String> obtenerAlumnos() {
-        return obtenerDatos("alumno", "nombre");
+        return obtenerDatos("alumno","nombre");
     }
 
     private List<String> obtenerEmpresas() {
@@ -226,7 +241,7 @@ public class HelloController {
         guardarAsignacion(alumnoSeleccionado, empresaSeleccionada, tutorSeleccionado);
 
         // Comprobar si el alumno ya está asignado
-        if (alumnoEstaAsignado(alumnoSeleccionado)) {
+        if (alumnoEstaAsignado(alumnoSeleccionado)){
             label_informacionCompleta.setText("El alumno ya está asignado");
         }
 
@@ -270,33 +285,6 @@ public class HelloController {
         return null;
     }
 
-    @FXML
-    public void click_smb_eleccionAlumno() {
-    }
-
-    @FXML
-    public void click_smb_eleccionEmpresa() {
-//        // Obtén las empresas de la base de datos
-//        List<String> empresas = obtenerEmpresas();
-//
-//        // Limpia los elementos existentes
-//        smb_eleccionEmpresa.getItems().clear();
-//
-//        // Agrega las empresas a la lista desplegable
-//        smb_eleccionEmpresa.getItems().addAll((MenuItem) empresas);
-    }
-
-    @FXML
-    public void click_smb_eleccionTutor() {
-//        // Obtén los tutores de la base de datos
-//        List<String> tutores = obtenerTutores();
-//
-//        // Limpia los elementos existentes
-//        smb_eleccionTutor.getItems().clear();
-//
-//        // Agrega los tutores a la lista desplegable
-//        smb_eleccionTutor.getItems().addAll((MenuItem) tutores);
-    }
 
     private boolean alumnoEstaAsignado(String alumnoSeleccionado) {
         // Implementa este método para comprobar si el alumno ya está asignado
@@ -318,7 +306,7 @@ public class HelloController {
 
     private String obtenerNombreTutorLaboral(String tutorSeleccionado) {
         // Implementa este método para obtener el nombre del tutor laboral de la base de datos
-        String sql = "SELECT nombre_tutor_laboral FROM empresa WHERE id = ?";
+        String sql = "SELECT nombre_tutor_laboral, apellidos_tutor_laboral FROM empresa WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -327,7 +315,9 @@ public class HelloController {
 
             // Si hay resultados, devuelve el nombre del tutor
             if (rs.next()) {
-                return rs.getString("nombre_tutor_laboral");
+                String nombre = rs.getString("nombre_tutor_laboral");
+                String apellidos = rs.getString("apellidos_tutor_laboral");
+                return nombre + " " + apellidos;
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -344,12 +334,15 @@ public class HelloController {
 
         // Forma el mensaje a mostrar
         String mensaje = " El alumno " + alumnoSeleccionado + " queda asignado a la empresa" + empresaSeleccionada + "\n" +
-                "supervisado por el tutor docente" + tutorSeleccionado + "y por el tutor laboral" + nombreTutorLaboral + ".";
+                "supervisado por el tutor docente" + "\n" +tutorSeleccionado + "y por el tutor laboral" + nombreTutorLaboral + ".";
 
         // Muestra el mensaje en la etiqueta
+
         label_informacionCompleta.setText(mensaje);
-        label_informacionCompleta.setFont(Font.font("Arial"));
+        label_informacionCompleta.setFont(Font.font("Arial", FontWeight.BOLD, 12));
         label_informacionCompleta.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, CornerRadii.EMPTY, Insets.EMPTY)));
+        label_informacionCompleta.setTextAlignment(TextAlignment.CENTER);
+        label_informacionCompleta.setAlignment(Pos.CENTER);
     }
 
 
