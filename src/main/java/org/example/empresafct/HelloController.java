@@ -74,12 +74,11 @@ public class HelloController {
 
     public void initialize() {
         // Llama a los métodos para obtener los datos de las listas desplegables
-        // Obtén los alumnos de la base de datos
         List<String> alumnos = obtenerAlumnos();
         List<String> empresas = obtenerEmpresas();
         List<String> tutores = obtenerTutores();
 
-       // System.out.printf("Alumnos: %s\n", alumnos);
+
         // Limpia los elementos existentes
         smb_eleccionAlumno.getItems().clear();
         smb_eleccionEmpresa.getItems().clear();
@@ -88,13 +87,15 @@ public class HelloController {
         label_informacionCompleta.setFont(Font.font("Arial", FontWeight.BOLD, 12));
 
 
-        // Agrega los alumnos a la lista desplegable
+        // Agrega los alumnos, empresa y tutor a la lista desplegable
+
         for (String alumno : alumnos) {
             MenuItem item = new MenuItem(alumno);
             item.setOnAction(event -> {
                     smb_eleccionAlumno.setText(alumno); alumnoSeleccionado = alumno; });
-                smb_eleccionAlumno.getItems().add(item);
+            smb_eleccionAlumno.getItems().add(item);
         }
+
         for (String empresa : empresas) {
             MenuItem item = new MenuItem(empresa);
             item.setOnAction(event -> {
@@ -214,26 +215,13 @@ public class HelloController {
     }
     @FXML
     public void click_smb_eleccionEmpresa() {
-//        // Obtén las empresas de la base de datos
-//        List<String> empresas = obtenerEmpresas();
-//
-//        // Limpia los elementos existentes
-//        smb_eleccionEmpresa.getItems().clear();
-//
-//        // Agrega las empresas a la lista desplegable
-//        smb_eleccionEmpresa.getItems().addAll((MenuItem) empresas);
+
     }
     @FXML
     public void click_smb_eleccionTutor() {
-//        // Obtén los tutores de la base de datos
-//        List<String> tutores = obtenerTutores();
-//
-//        // Limpia los elementos existentes
-//        smb_eleccionTutor.getItems().clear();
-//
-//        // Agrega los tutores a la lista desplegable
-//        smb_eleccionTutor.getItems().addAll((MenuItem) tutores);
+
     }
+
 
     private boolean alumnoEstaAsignado(String alumnoSeleccionado) {
         // Implementa este método para comprobar si el alumno ya está asignado
