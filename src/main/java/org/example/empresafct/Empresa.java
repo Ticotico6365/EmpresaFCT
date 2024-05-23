@@ -1,5 +1,7 @@
 package org.example.empresafct;
 
+import java.util.Objects;
+
 public class Empresa {
     private Integer id;
     private String codigo_emrpresa;
@@ -186,5 +188,43 @@ public class Empresa {
 
     public void setTelefono_tutor_laboral(String telefono_tutor_laboral) {
         this.telefono_tutor_laboral = telefono_tutor_laboral;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Empresa empresa = (Empresa) o;
+        return Objects.equals(id, empresa.id) && Objects.equals(codigo_emrpresa, empresa.codigo_emrpresa) && Objects.equals(cif, empresa.cif) && Objects.equals(nombre_empresa, empresa.nombre_empresa) && Objects.equals(direccion, empresa.direccion) && Objects.equals(codigo_postal, empresa.codigo_postal) && Objects.equals(localidad, empresa.localidad) && Objects.equals(jornada, empresa.jornada) && Objects.equals(modalidad, empresa.modalidad) && Objects.equals(mail, empresa.mail) && Objects.equals(dni_responsable_legal, empresa.dni_responsable_legal) && Objects.equals(dni_tutor_legal, empresa.dni_tutor_legal) && Objects.equals(nombre_responsable_legal, empresa.nombre_responsable_legal) && Objects.equals(dni_tutor_laboral, empresa.dni_tutor_laboral) && Objects.equals(nombre_tutor_laboral, empresa.nombre_tutor_laboral) && Objects.equals(apellidos_responsable_legal, empresa.apellidos_responsable_legal) && Objects.equals(apellidos_tutor_laboral, empresa.apellidos_tutor_laboral) && Objects.equals(telefono_tutor_laboral, empresa.telefono_tutor_laboral);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, codigo_emrpresa, cif, nombre_empresa, direccion, codigo_postal, localidad, jornada, modalidad, mail, dni_responsable_legal, dni_tutor_legal, nombre_responsable_legal, dni_tutor_laboral, nombre_tutor_laboral, apellidos_responsable_legal, apellidos_tutor_laboral, telefono_tutor_laboral);
+    }
+
+
+    @Override
+    public String toString() {
+        return "Empresa{" +
+                "id=" + id +
+                ", codigo_emrpresa='" + codigo_emrpresa + '\'' +
+                ", cif='" + cif + '\'' +
+                ", nombre_empresa='" + nombre_empresa + '\'' +
+                ", direccion='" + direccion + '\'' +
+                ", codigo_postal='" + codigo_postal + '\'' +
+                ", localidad='" + localidad + '\'' +
+                ", jornada='" + jornada + '\'' +
+                ", modalidad='" + modalidad + '\'' +
+                ", mail='" + mail + '\'' +
+                ", dni_responsable_legal='" + dni_responsable_legal + '\'' +
+                ", dni_tutor_legal='" + dni_tutor_legal + '\'' +
+                ", nombre_responsable_legal='" + nombre_responsable_legal + '\'' +
+                ", dni_tutor_laboral='" + dni_tutor_laboral + '\'' +
+                ", nombre_tutor_laboral='" + nombre_tutor_laboral + '\'' +
+                ", apellidos_responsable_legal='" + apellidos_responsable_legal + '\'' +
+                ", apellidos_tutor_laboral='" + apellidos_tutor_laboral + '\'' +
+                ", telefono_tutor_laboral='" + telefono_tutor_laboral + '\'' +
+                '}';
     }
 }

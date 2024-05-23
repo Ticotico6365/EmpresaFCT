@@ -1,5 +1,7 @@
 package org.example.empresafct;
 
+import java.util.Objects;
+
 public class Tutor {
     private int id;
     private String nombre;
@@ -46,5 +48,29 @@ public class Tutor {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tutor tutor = (Tutor) o;
+        return id == tutor.id && Objects.equals(nombre, tutor.nombre) && Objects.equals(apellidos, tutor.apellidos) && Objects.equals(correoElectronico, tutor.correoElectronico) && Objects.equals(telefono, tutor.telefono);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nombre, apellidos, correoElectronico, telefono);
+    }
+
+    @Override
+    public String toString() {
+        return "Tutor{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", apellidos='" + apellidos + '\'' +
+                ", correoElectronico='" + correoElectronico + '\'' +
+                ", telefono='" + telefono + '\'' +
+                '}';
     }
 }
